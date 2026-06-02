@@ -83,4 +83,6 @@ public class Invoice {
     @Builder.Default
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceItem> items = new ArrayList<>();
+
+    private String pdfUrl;
 }

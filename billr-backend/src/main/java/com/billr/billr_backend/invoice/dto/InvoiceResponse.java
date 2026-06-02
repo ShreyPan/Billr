@@ -29,6 +29,7 @@ public class InvoiceResponse {
     private BigDecimal gstAmount;
     private BigDecimal totalAmount;
     private String notes;
+    private String pdfUrl;
     private List<InvoiceItemResponse> items;
     private LocalDateTime createdAt;
 }
