@@ -12,6 +12,7 @@ import com.billr.billr_backend.invoice.dto.InvoiceItemResponse;
 import com.billr.billr_backend.invoice.model.Invoice;
 import com.billr.billr_backend.invoice.model.InvoiceItem;
 import com.billr.billr_backend.pdf.service.PdfGenerationService;
+import com.billr.billr_backend.notification.service.EmailService;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,15 +31,17 @@ public class InvoiceService {
         private final ClientRepository clientRepository;
         private final BusinessRepository businessRepository;
         private final PdfGenerationService pdfGenerationService;
+        private final EmailService emailService;
 
         public InvoiceService(InvoiceRepository invoiceRepository, InvoiceItemRepository invoiceItemRepository,
                         ClientRepository clientRepository, BusinessRepository businessRepository,
-                        PdfGenerationService pdfGenerationService) {
+                        PdfGenerationService pdfGenerationService, EmailService emailService) {
                 this.invoiceRepository = invoiceRepository;
                 this.invoiceItemRepository = invoiceItemRepository;
                 this.clientRepository = clientRepository;
                 this.businessRepository = businessRepository;
                 this.pdfGenerationService = pdfGenerationService;
+                this.emailService = emailService;
         }
 
         private User getCurrentUser() {
@@ -128,6 +131,7 @@ public class InvoiceService {
 
                 if (newStatus == InvoiceStatus.SENT) {
                         pdfGenerationService.generateInvoicePdf(updatedInvoice);
+                        emailService.sendInvoiceEmail(updatedInvoice);
                 }
                 return mapToResponse(updatedInvoice);
         }

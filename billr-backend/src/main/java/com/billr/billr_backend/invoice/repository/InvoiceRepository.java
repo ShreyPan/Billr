@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
@@ -16,6 +17,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
     List<Invoice> findAllByBusinessIdAndStatus(UUID businessId, InvoiceStatus status);
 
     Optional<Invoice> findByIdAndBusinessId(UUID id, UUID businessId);
+
+    List<Invoice> findAllByStatusAndDueDateBefore(InvoiceStatus status, LocalDate date);
 
     boolean existsByInvoiceNumber(String invoiceNumber);
 }
